@@ -32,7 +32,7 @@ export default function Details(props) {
       <React.Fragment>
         <Card>
           <CardContent>
-            <Title>Quote #{props.data.quoteID} </Title>
+            <Title>Customer Insurance Quote #{props.data.quoteID} </Title>
             <Typography component="p" variant="h5">
               {`${props.data.quotePrefix} ${props.data.quoteFirstName} ${props.data.quoteLastName}`}
             </Typography>
@@ -55,18 +55,21 @@ export default function Details(props) {
             </Typography>
 
             <Chip
+              sx={{ mr: 2, mt: 1 }}
               icon={<DirectionsCarIcon />}
               label={` ${props.data.quoteVehicleType}, ${props.data.quoteEngineSize}cc, $${props.data.quoteVehicleValue}`}
               color="info"
             />
 
             <Chip
+              sx={{ mr: 2, mt: 1 }}
               icon={<DirectionsCarIcon />}
               label={` ${props.data.quoteNoAdditionalDrivers} Additional Drivers`}
               color="secondary"
             />
             {props.data.quoteIsRegistered === "Yes" && (
               <Chip
+                sx={{ mr: 2, mt: 1 }}
                 icon={<PublicIcon />}
                 label="Registered Outside State"
                 color="success"
@@ -74,6 +77,7 @@ export default function Details(props) {
             )}
             {props.data.quoteIsRegistered === "No" && (
               <Chip
+                sx={{ mr: 2, mt: 1 }}
                 icon={<PublicOffIcon />}
                 label="Not Registered Outside State"
                 color="error"
@@ -82,6 +86,7 @@ export default function Details(props) {
 
             {props.data.quoteIsCommercial === "Yes" && (
               <Chip
+                sx={{ mr: 2, mt: 1 }}
                 icon={<AirportShuttleIcon />}
                 label="Commercial Use"
                 color="success"
@@ -89,6 +94,7 @@ export default function Details(props) {
             )}
             {props.data.quoteIsCommercial === "No" && (
               <Chip
+                sx={{ mr: 2, mt: 1 }}
                 icon={<DoNotDisturbIcon />}
                 label="No Commercial Use"
                 color="error"

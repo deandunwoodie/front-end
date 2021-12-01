@@ -58,6 +58,7 @@ export default function Chart({ childToParent }) {
       .then((response) => {
         if (response.status === 200) {
           setIsMobileUpdatedSuccess(true);
+          setIsShown(false);
           setState("view");
         }
       })
@@ -102,11 +103,6 @@ export default function Chart({ childToParent }) {
         setIsDeleted(false);
       });
   }
-  const [option, setOption] = useState([]);
-
-  const handleChange1 = (event) => {
-    setOption(event.target.value);
-  };
 
   const handleDriverID = (event) => {
     setDriverID(event.target.value);
@@ -115,14 +111,6 @@ export default function Chart({ childToParent }) {
   const handleMobile = (event) => {
     setQuoteMobile(event.target.value);
   };
-
-  const handleTelephoneNumber = (event) => {
-    setTelephoneNumber(event.target.value);
-  };
-
-  function setLocalStorage(data) {
-    localStorage.setItem("selectedQuote", JSON.stringify(data));
-  }
 
   const [state, setState] = useState("start");
 

@@ -123,11 +123,6 @@ export default function Admin({ tableData }) {
             >
               Allstate Insurance
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -217,11 +212,11 @@ export default function Admin({ tableData }) {
                 </Paper>
               </Grid> */}
               {/* Recent Orders */}
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                   <Orders />
                 </Paper>
-              </Grid>
+              </Grid> */}
             </Grid>
             {/* <Copyright sx={{ pt: 4 }} /> */}
           </Container>
