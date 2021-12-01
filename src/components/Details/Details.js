@@ -16,7 +16,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Chip from "@mui/material/Chip";
 import Grid from "@mui/material/Grid";
-
+import CallIcon from "@mui/icons-material/Call";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import PublicIcon from "@mui/icons-material/Public";
@@ -33,17 +33,31 @@ export default function Details(props) {
         <Card>
           <CardContent>
             <Title>Quote #{props.data.quoteID} </Title>
-            <Typography component="p" variant="h4">
+            <Typography component="p" variant="h5">
               {`${props.data.quotePrefix} ${props.data.quoteFirstName} ${props.data.quoteLastName}`}
             </Typography>
-            <Typography color="text.secondary" sx={{ flex: 1 }}>
+
+            <Typography
+              component="p"
+              variant="h6"
+              color="text.secondary"
+              sx={{ flex: 1 }}
+            >
               {`${props.data.quoteAddressLine1}, ${props.data.quoteAddressLine2}, ${props.data.quoteCity}, ${props.data.quotePostcode}`}
+            </Typography>
+            <Typography
+              icon={<DirectionsCarIcon />}
+              component="p"
+              variant="h6"
+              sx={{ flex: 1 }}
+            >
+              Tel: {props.data.quoteMobile}
             </Typography>
 
             <Chip
               icon={<DirectionsCarIcon />}
               label={` ${props.data.quoteVehicleType}, ${props.data.quoteEngineSize}cc, $${props.data.quoteVehicleValue}`}
-              color="primary"
+              color="info"
             />
 
             <Chip

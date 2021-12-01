@@ -14,9 +14,9 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <div>
+        {/* <div>
           <Header></Header>
-        </div>
+        </div> */}
         <div>
           <Route exact path="/create" component={CreateQuote}></Route>
         </div>

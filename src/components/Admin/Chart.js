@@ -31,17 +31,25 @@ export default function Chart({ childToParent }) {
   // const hide = (action) => () => setState(action);
 
   const onDelete = (userID) => {
-    const endpointURL = `https://6150fecbd0a7c100170168dd.mockapi.io/quotes/${driverID}`;
+    // const endpointURL = `https://6150fecbd0a7c100170168dd.mockapi.io/quotes/${driverID}`;
+    const endpointURL = `http://localhost:8081/quotes/${driverID}`;
     axios
       .delete(endpointURL)
-      .then(() => deleteAlert())
+      .then((response) => {
+        if (response.status === 200) {
+          setIsShown(false);
+          setIsDeleted(true);
+        }
+      })
       .catch((err) => {
         console.log(err);
       });
   };
+  const hide = (action) => () => setState(action);
 
   const putRequest = () => {
-    const endpointURL = `https://6150fecbd0a7c100170168dd.mockapi.io/quotes/${driverID}`;
+    // const endpointURL = `https://6150fecbd0a7c100170168dd.mockapi.io/quotes/${driverID}`;
+    const endpointURL = `http://localhost:8081/quotes/${driverID}`;
     console.log(endpointURL);
 
     const mobile = { quoteMobile: quoteMobile };
@@ -50,9 +58,10 @@ export default function Chart({ childToParent }) {
       .then((response) => {
         if (response.status === 200) {
           setIsMobileUpdatedSuccess(true);
+          setState("view");
         }
       })
-      .catch(setIsMobileUpdatedSuccess(true));
+      .catch(setIsMobileUpdatedSuccess(false));
   };
 
   function deleteAlert() {
@@ -63,6 +72,7 @@ export default function Chart({ childToParent }) {
     );
   }
   const [isSuccess, setIsSuccess] = React.useState(true);
+  const [isDeleted, setIsDeleted] = React.useState(false);
   const [isMobileUpdatedSuccess, setIsMobileUpdatedSuccess] =
     React.useState(false);
 
@@ -78,6 +88,8 @@ export default function Chart({ childToParent }) {
         if (response.status === 200) {
           setIsShown(true);
           setIsSuccess(true);
+          setIsDeleted(false);
+          setIsMobileUpdatedSuccess(false);
           setTableData(response.data);
           console.log("hello");
         }
@@ -85,7 +97,9 @@ export default function Chart({ childToParent }) {
 
       .catch(() => {
         setIsSuccess(false);
+        setIsMobileUpdatedSuccess(false);
         setIsShown(false);
+        setIsDeleted(false);
       });
   }
   const [option, setOption] = useState([]);
@@ -135,6 +149,7 @@ export default function Chart({ childToParent }) {
             <Button
               onClick={callMockAPI}
               fullWidth
+              color="info"
               variant="contained"
               sx={{ mt: 3 }}
             >
@@ -147,6 +162,11 @@ export default function Chart({ childToParent }) {
             Error! No quote exists with the ID you have entered. Try again..
           </Alert>
         )}
+        {isDeleted && (
+          <Alert variant="filled" severity="success">
+            Success! Quote has been deleted.
+          </Alert>
+        )}
         {isMobileUpdatedSuccess && (
           <Alert variant="filled" severity="success">
             Success! Telephone number has been updated.
@@ -154,43 +174,6 @@ export default function Chart({ childToParent }) {
         )}
       </Grid>
 
-      {state === "update" && (
-        <div>
-          <Stack spacing={2} direction="row">
-            <Form.Field className="text">
-              <TextField
-                name="quoteID"
-                color="secondary"
-                className="text"
-                required
-                label="Driver ID"
-                variant="outlined"
-                onChange={handleDriverID}
-                // onChange={handleOnChange}
-                // value={formValues.quoteFirstName}
-              />
-            </Form.Field>
-
-            <Form.Field className="text">
-              <TextField
-                name="quoteID"
-                color="secondary"
-                className="text"
-                required
-                label="Telephone Number"
-                variant="outlined"
-                onChange={handleMobile}
-                // onChange={handleOnChange}
-                // value={formValues.quoteFirstName}
-              />
-            </Form.Field>
-
-            <Button onClick={putRequest} variant="contained">
-              Update
-            </Button>
-          </Stack>
-        </div>
-      )}
       {state === "delete" && (
         <div>
           <Stack spacing={2} direction="row">
@@ -220,18 +203,48 @@ export default function Chart({ childToParent }) {
           <Details data={tableData} />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <Button
-                fullWidth
-                color="success"
-                sx={{ mt: 3 }}
-                variant="contained"
-              >
-                Edit Telephone Number
-              </Button>
+              {state !== "update" && (
+                <Button
+                  fullWidth
+                  onClick={hide("update")}
+                  color="success"
+                  sx={{ mt: 3 }}
+                  variant="contained"
+                >
+                  Edit Telephone Number
+                </Button>
+              )}
+              {state === "update" && (
+                <React.Fragment>
+                  <Form.Field className="text">
+                    <TextField
+                      name="quoteID"
+                      sx={{ mt: 3 }}
+                      color="secondary"
+                      className="text"
+                      required
+                      label="Telephone Number"
+                      variant="outlined"
+                      onChange={handleMobile}
+                      // onChange={handleOnChange}
+                      // value={formValues.quoteFirstName}
+                    />
+                    <Button
+                      onClick={putRequest}
+                      fullWidth
+                      color="success"
+                      variant="contained"
+                    >
+                      Update
+                    </Button>
+                  </Form.Field>
+                </React.Fragment>
+              )}
             </Grid>
             <Grid item xs={12} sm={6}>
               <Button
                 fullWidth
+                onClick={() => onDelete(driverID)}
                 color="error"
                 sx={{ mt: 3 }}
                 variant="contained"

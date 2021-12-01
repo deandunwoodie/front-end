@@ -159,7 +159,7 @@ export default function Admin({ tableData }) {
                     p: 2,
                     display: "flex",
                     flexDirection: "column",
-                    height: 520,
+                    height: 600,
                   }}
                 >
                   <Chart />
