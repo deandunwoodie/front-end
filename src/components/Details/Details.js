@@ -1,4 +1,6 @@
 import React from "react";
+import Title from "../Admin/Title";
+
 import CurrencyFormat from "react-currency-format";
 import FormLabel from "@mui/material/FormLabel";
 import Box from "@mui/material/Box";
@@ -12,6 +14,15 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import Chip from "@mui/material/Chip";
+import Grid from "@mui/material/Grid";
+
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import PublicIcon from "@mui/icons-material/Public";
+import PublicOffIcon from "@mui/icons-material/PublicOff";
+import AirportShuttleIcon from "@mui/icons-material/AirportShuttle";
+import DoNotDisturbIcon from "@mui/icons-material/DoNotDisturb";
 export default function Details(props) {
   console.log("from details");
   console.log(props);
@@ -19,98 +30,74 @@ export default function Details(props) {
   return (
     <div>
       <React.Fragment>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>Quote ID</TableCell>
-              <TableCell>Legal Name</TableCell>
-              <TableCell>Address</TableCell>
-              <TableCell>Vehicle</TableCell>
+        <Card>
+          <CardContent>
+            <Title>Quote #{props.data.quoteID} </Title>
+            <Typography component="p" variant="h4">
+              {`${props.data.quotePrefix} ${props.data.quoteFirstName} ${props.data.quoteLastName}`}
+            </Typography>
+            <Typography color="text.secondary" sx={{ flex: 1 }}>
+              {`${props.data.quoteAddressLine1}, ${props.data.quoteAddressLine2}, ${props.data.quoteCity}, ${props.data.quotePostcode}`}
+            </Typography>
 
-              <TableCell align="right">Quote Cost</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>{props.data.quoteID} </TableCell>
-              <TableCell>
-                {`${props.data.quotePrefix} ${props.data.quoteFirstName} ${props.data.quoteLastName}`}
-              </TableCell>
-              <TableCell>
-                {`${props.data.quoteAddressLine1}, ${props.data.quoteAddressLine2}, ${props.data.quotePostcode}`}
-              </TableCell>
-              <TableCell>{`${props.data.quoteVehicleType}, ${props.data.quoteEngineSize}cc`}</TableCell>
+            <Chip
+              icon={<DirectionsCarIcon />}
+              label={` ${props.data.quoteVehicleType}, ${props.data.quoteEngineSize}cc, $${props.data.quoteVehicleValue}`}
+              color="primary"
+            />
 
-              <TableCell align="right">FIX THIS</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-        {/* <Box sx={{ minWidth: 275 }}>
-          <Card variant="outlined">
-            <CardContent>
-              <Typography
-                sx={{ fontSize: 14 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                Quote #{props.data.quoteID}
-              </Typography>
-              <Typography variant="h5" component="div">
-                {props.data.quotePrefix} {props.data.quoteFirstName}{" "}
-                {props.data.quoteLastName}
-              </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                {props.data.quoteAddressLine1},
-              </Typography>
-              <Typography variant="body2">
-                well meaning and kindly.
-                <br />
-                {'"a benevolent smile"'}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions>
-          </Card>
-        </Box> */}
+            <Chip
+              icon={<DirectionsCarIcon />}
+              label={` ${props.data.quoteNoAdditionalDrivers} Additional Drivers`}
+              color="secondary"
+            />
+            {props.data.quoteIsRegistered === "Yes" && (
+              <Chip
+                icon={<PublicIcon />}
+                label="Registered Outside State"
+                color="success"
+              />
+            )}
+            {props.data.quoteIsRegistered === "No" && (
+              <Chip
+                icon={<PublicOffIcon />}
+                label="Not Registered Outside State"
+                color="error"
+              />
+            )}
+
+            {props.data.quoteIsCommercial === "Yes" && (
+              <Chip
+                icon={<AirportShuttleIcon />}
+                label="Commercial Use"
+                color="success"
+              />
+            )}
+            {props.data.quoteIsCommercial === "No" && (
+              <Chip
+                icon={<DoNotDisturbIcon />}
+                label="No Commercial Use"
+                color="error"
+              />
+            )}
+
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="right">Quote Cost</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell align="right">
+                    ${`${props.data.quoteTotalCost}`}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </React.Fragment>
-
-      {/* <FormLabel component="legend">Driver Details</FormLabel>
-      <FormLabel>
-        {props.data.quotePrefix} {props.data.quoteFirstName}{" "}
-        {props.data.quoteLastName}
-      </FormLabel>
-
-      <FormLabel component="legend">{props.data.quoteAddressLine1},</FormLabel>
-
-      <FormLabel component="legend">{props.data.quoteAddressLine2},</FormLabel>
-
-      <FormLabel component="legend">{props.data.quoteCity},</FormLabel>
-
-      <FormLabel component="legend">{props.data.quotePostcode}</FormLabel>
-
-      <FormLabel component="legend">{props.data.quoteMobile}</FormLabel>
-
-      <FormLabel component="legend">Additional Drivers:</FormLabel>
-
-      <FormLabel component="legend">
-        Commercial Use? {props.data.quoteIsCommercial}
-      </FormLabel>
-      <FormLabel component="legend">
-        Registered Outside State? {props.data.quoteIsRegistered}
-      </FormLabel>
-      <FormLabel component="legend">
-        Vehicle Engine Size: {props.data.quoteEngineSize}cc
-      </FormLabel>
-      <FormLabel component="legend">
-        Vehicle Value:
-        <CurrencyFormat
-          value={props.data.quoteVehicleValue}
-          displayType={"text"}
-          thousandSeparator={true}
-          prefix={"$"}
-        />
-      </FormLabel> */}
     </div>
   );
 }

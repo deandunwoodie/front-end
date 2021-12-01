@@ -114,7 +114,9 @@ export default function Read() {
       <Title>Quote Lookup</Title>
 
       <Grid item xs={8}>
-        <Typography color="text.secondary">Search for a quote by:</Typography>
+        <Typography color="text.secondary">
+          View, update contact details and cancel quotes using Quote ID
+        </Typography>
         <RadioGroup
           row
           name="quoteIsCommercial"

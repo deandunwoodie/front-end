@@ -18,7 +18,8 @@ import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import Details from "../Details/Details";
 import { Form } from "semantic-ui-react";
-export default function Chart() {
+import { ContactPageSharp } from "@mui/icons-material";
+export default function Chart({ childToParent }) {
   const theme = useTheme();
 
   const [tableData, setTableData] = useState([]);
@@ -68,8 +69,8 @@ export default function Chart() {
   const [isShown, setIsShown] = React.useState(false);
 
   function callMockAPI() {
-    const endpointURL = `https://6150fecbd0a7c100170168dd.mockapi.io/quotes/${driverID}`;
-    // const endpointURL = `http://localhost:8080/quotes/${driverID}`;
+    // const endpointURL = `https://6150fecbd0a7c100170168dd.mockapi.io/quotes/${driverID}`;
+    const endpointURL = `http://localhost:8081/quotes/${driverID}`;
 
     axios
       .get(endpointURL)
@@ -77,8 +78,8 @@ export default function Chart() {
         if (response.status === 200) {
           setIsShown(true);
           setIsSuccess(true);
-
           setTableData(response.data);
+          console.log("hello");
         }
       })
 
@@ -115,53 +116,42 @@ export default function Chart() {
     <React.Fragment>
       <Title>Quote Lookup</Title>
 
-      <Grid item xs={8}>
-        <Typography color="text.secondary">Search for a quote by:</Typography>
-        <RadioGroup
-          row
-          name="quoteIsCommercial"
-          // value={formValues.quoteIsCommercial}
-        >
-          <FormControlLabel
-            value="quoteID"
-            // onChange={handleOnChange}
-            control={<Radio />}
-            label="Quote ID"
-          />
-          <FormControlLabel
-            value="quoteFirstName"
-            // onChange={handleOnChange}
-            control={<Radio />}
-            label="First Name"
-          />
-          <FormControlLabel
-            value="quoteLastName"
-            // onChange={handleOnChange}
-            control={<Radio />}
-            label="Last Name"
-          />
-          <FormControlLabel
-            value="quoteVehicleType"
-            // onChange={handleOnChange}
-            control={<Radio />}
-            label="Vehicle Type"
-          />
-        </RadioGroup>
-        <Form.Field className="text">
-          <TextField
-            name="quoteID"
-            className="text"
-            required
-            label="Quote ID"
-            variant="outlined"
-            onChange={handleDriverID}
-            // onChange={handleOnChange}
-            // value={formValues.quoteFirstName}
-          />
-        </Form.Field>
-        <Button onClick={callMockAPI} variant="contained">
-          View
-        </Button>
+      <Grid item xs={12}>
+        <Typography color="text.secondary">
+          View, update contact details and cancel quotes using Quote ID:
+        </Typography>
+        <Grid item xs={12}>
+          <Form.Field className="text">
+            <TextField
+              name="quoteID"
+              className="text"
+              required
+              label="Quote ID"
+              variant="standard"
+              onChange={handleDriverID}
+              // onChange={handleOnChange}
+              // value={formValues.quoteFirstName}
+            />
+            <Button
+              onClick={callMockAPI}
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3 }}
+            >
+              Search
+            </Button>
+          </Form.Field>
+        </Grid>
+        {!isSuccess && (
+          <Alert variant="filled" severity="error">
+            Error! No quote exists with the ID you have entered. Try again..
+          </Alert>
+        )}
+        {isMobileUpdatedSuccess && (
+          <Alert variant="filled" severity="success">
+            Success! Telephone number has been updated.
+          </Alert>
+        )}
       </Grid>
 
       {state === "update" && (
@@ -224,20 +214,32 @@ export default function Chart() {
           </Stack>
         </div>
       )}
-      {!isSuccess && (
-        <Alert variant="filled" severity="error">
-          Error! No driver exists with the ID you have entered.
-        </Alert>
-      )}
-      {isMobileUpdatedSuccess && (
-        <Alert variant="filled" severity="success">
-          Success! Telephone number has been updated.
-        </Alert>
-      )}
 
       {isShown && (
         <div>
           <Details data={tableData} />
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Button
+                fullWidth
+                color="success"
+                sx={{ mt: 3 }}
+                variant="contained"
+              >
+                Edit Telephone Number
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Button
+                fullWidth
+                color="error"
+                sx={{ mt: 3 }}
+                variant="contained"
+              >
+                Delete Quote
+              </Button>
+            </Grid>
+          </Grid>
         </div>
       )}
     </React.Fragment>
