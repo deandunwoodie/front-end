@@ -92,7 +92,6 @@ export default function Create({ childToParent }) {
 
     axios
       .post(endpointURL, values)
-      // .then(() => setIsSuccess(true) )
       .then(() => childToParent(formik.values))
       .catch(() => setIsSuccess(false));
   };
@@ -122,12 +121,10 @@ export default function Create({ childToParent }) {
       console.log(values);
     },
     onSubmit: (values) => {
-      // alert(JSON.stringify(values, null, 2));
       callMockAPI(values);
       console.log(values);
 
       childToParent(values);
-      // <QuoteConfirmation parentToChild={values} />;
     },
   });
 

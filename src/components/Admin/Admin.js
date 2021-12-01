@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Create from "../Create/Create";
@@ -11,7 +11,6 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -23,13 +22,8 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import { mainListItems, secondaryListItems } from "./listItems";
+import { secondaryListItems } from "./listItems";
 import Chart from "./Chart";
-import Deposits from "./Deposits";
-import Orders from "./Orders";
-import Details from "../Details/Details";
-import { Link } from "react-router-dom";
 
 const mdTheme = createTheme();
 const drawerWidth = 240;
@@ -79,11 +73,6 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function Admin({ tableData }) {
-  const [data, setData] = useState("");
-
-  const childToParent = (childdata) => {
-    setData(childdata);
-  };
   const [open, setOpen] = React.useState(true);
 
   const [newQuote, setNewQuote] = React.useState(false);
@@ -99,7 +88,7 @@ export default function Admin({ tableData }) {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px", // keep right padding when drawer closed
+              pr: "24px",
             }}
           >
             <IconButton
@@ -197,28 +186,7 @@ export default function Admin({ tableData }) {
                   {newQuote && <Create />}
                 </Paper>
               </Grid>
-              {/* Recent Deposits */}
-              {/* <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 400,
-                  }}
-                >
-                  <Details data={data} />
-                  <Deposits />
-                </Paper>
-              </Grid> */}
-              {/* Recent Orders */}
-              {/* <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <Orders />
-                </Paper>
-              </Grid> */}
             </Grid>
-            {/* <Copyright sx={{ pt: 4 }} /> */}
           </Container>
         </Box>
       </Box>
