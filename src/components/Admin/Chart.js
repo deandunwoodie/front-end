@@ -1,34 +1,25 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import Title from "./Title";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import FormControl from "@mui/material/FormControl";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Alert from "@mui/material/Alert";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import Stack from "@mui/material/Stack";
 import Details from "../Details/Details";
 import { Form } from "semantic-ui-react";
-import { ContactPageSharp } from "@mui/icons-material";
-export default function Chart({ childToParent }) {
-  const theme = useTheme();
-
+export default function Chart() {
   const [tableData, setTableData] = useState([]);
   const [driverID, setDriverID] = useState([]);
   const [quoteMobile, setQuoteMobile] = useState([]);
+  const [isSuccess, setIsSuccess] = React.useState(true);
+  const [isDeleted, setIsDeleted] = React.useState(false);
+  const [isMobileUpdatedSuccess, setIsMobileUpdatedSuccess] =
+    React.useState(false);
 
-  const [telephoneNumber, setTelephoneNumber] = useState([]);
-
-  // const hide = (action) => () => setState(action);
+  const [isShown, setIsShown] = React.useState(false);
 
   const onDelete = (userID) => {
     // const endpointURL = `https://6150fecbd0a7c100170168dd.mockapi.io/quotes/${driverID}`;
@@ -45,6 +36,7 @@ export default function Chart({ childToParent }) {
         console.log(err);
       });
   };
+
   const hide = (action) => () => setState(action);
 
   const putRequest = () => {
@@ -53,6 +45,7 @@ export default function Chart({ childToParent }) {
     console.log(endpointURL);
 
     const mobile = { quoteMobile: quoteMobile };
+
     axios
       .put(endpointURL, mobile)
       .then((response) => {
@@ -64,20 +57,6 @@ export default function Chart({ childToParent }) {
       })
       .catch(setIsMobileUpdatedSuccess(false));
   };
-
-  function deleteAlert() {
-    return (
-      <Alert severity="success">
-        Driver {driverID} has been successfully deleted!
-      </Alert>
-    );
-  }
-  const [isSuccess, setIsSuccess] = React.useState(true);
-  const [isDeleted, setIsDeleted] = React.useState(false);
-  const [isMobileUpdatedSuccess, setIsMobileUpdatedSuccess] =
-    React.useState(false);
-
-  const [isShown, setIsShown] = React.useState(false);
 
   function callMockAPI() {
     // const endpointURL = `https://6150fecbd0a7c100170168dd.mockapi.io/quotes/${driverID}`;
@@ -92,6 +71,7 @@ export default function Chart({ childToParent }) {
           setIsDeleted(false);
           setIsMobileUpdatedSuccess(false);
           setTableData(response.data);
+          setState("view");
           console.log("hello");
         }
       })
@@ -131,8 +111,6 @@ export default function Chart({ childToParent }) {
               label="Quote ID"
               variant="standard"
               onChange={handleDriverID}
-              // onChange={handleOnChange}
-              // value={formValues.quoteFirstName}
             />
             <Button
               onClick={callMockAPI}
@@ -174,8 +152,6 @@ export default function Chart({ childToParent }) {
                 label="Driver ID"
                 variant="outlined"
                 onChange={handleDriverID}
-                // onChange={handleOnChange}
-                // value={formValues.quoteFirstName}
               />
             </Form.Field>
 
@@ -214,8 +190,6 @@ export default function Chart({ childToParent }) {
                       label="Telephone Number"
                       variant="outlined"
                       onChange={handleMobile}
-                      // onChange={handleOnChange}
-                      // value={formValues.quoteFirstName}
                     />
                     <Button
                       onClick={putRequest}
