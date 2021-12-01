@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import Create from "../Create/Create";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
@@ -13,7 +15,12 @@ import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Link from "@mui/material/Link";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -22,6 +29,7 @@ import Chart from "./Chart";
 import Deposits from "./Deposits";
 import Orders from "./Orders";
 import Details from "../Details/Details";
+import { Link } from "react-router-dom";
 
 const mdTheme = createTheme();
 const drawerWidth = 240;
@@ -77,6 +85,9 @@ export default function Admin({ tableData }) {
     setData(childdata);
   };
   const [open, setOpen] = React.useState(true);
+
+  const [newQuote, setNewQuote] = React.useState(false);
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -110,7 +121,7 @@ export default function Admin({ tableData }) {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Admin Panel
+              Allstate Insurance
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -133,7 +144,33 @@ export default function Admin({ tableData }) {
             </IconButton>
           </Toolbar>
           <Divider />
-          <List>{mainListItems}</List>
+          <List>
+            <ListItem button>
+              <Button onClick={() => setNewQuote(false)}>
+                <ListItemIcon>
+                  <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText primary="Admin Panel" />
+              </Button>
+            </ListItem>
+            <ListItem button>
+              <Button onClick={() => setNewQuote(true)}>
+                <ListItemIcon>
+                  <ShoppingCartIcon />
+                </ListItemIcon>
+                <ListItemText primary="New Quote" />
+              </Button>
+            </ListItem>
+
+            <ListItem button>
+              <Button>
+                <ListItemIcon>
+                  <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="Quotes" />
+              </Button>
+            </ListItem>
+          </List>
           <Divider />
           <List>{secondaryListItems}</List>
         </Drawer>
@@ -156,13 +193,13 @@ export default function Admin({ tableData }) {
               <Grid item xs={12} md={8} lg={12}>
                 <Paper
                   sx={{
-                    p: 2,
-                    display: "flex",
+                    p: 5,
                     flexDirection: "column",
-                    height: 600,
+                    height: 1300,
                   }}
                 >
-                  <Chart />
+                  {!newQuote && <Chart />}
+                  {newQuote && <Create />}
                 </Paper>
               </Grid>
               {/* Recent Deposits */}

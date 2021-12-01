@@ -21,6 +21,8 @@ import Alert from "@mui/material/Alert";
 import PersonalDetailsForm from "../PersonalDetailsForm/PersonalDetailsForm";
 import "./Create.css";
 import QuoteConfirmation from "../QuoteConfirmation/QuoteConfirmation";
+import Title from "../Admin/Title";
+import Typography from "@mui/material/Typography";
 
 const validate = yup.object({
   quotePrefix: yup.string().required("Required"),
@@ -57,20 +59,8 @@ export default function Create({ childToParent }) {
       label: "1000",
     },
     {
-      value: 1200,
-      label: "1200",
-    },
-    {
-      value: 1400,
-      label: "1400",
-    },
-    {
       value: 1600,
       label: "1600",
-    },
-    {
-      value: 1800,
-      label: "1800",
     },
     {
       value: 2000,
@@ -83,6 +73,10 @@ export default function Create({ childToParent }) {
     {
       value: 3000,
       label: "3000",
+    },
+    {
+      value: 3500,
+      label: "Other",
     },
   ];
 
@@ -140,7 +134,14 @@ export default function Create({ childToParent }) {
   return (
     <div>
       <Grid container spacing={3}>
-        <Grid item xs={5}>
+        <Grid item xs={12}>
+          <Title>Get Insurance Quote</Title>
+          <Typography color="text.secondary">
+            Please complete the form below with your personal and vehicle
+            details to get an affordable quote in seconds.
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
           <ToggleButtonGroup
             color="primary"
             exclusive
@@ -161,7 +162,7 @@ export default function Create({ childToParent }) {
             {/* <div>Picked: {formik.values.quotePrefix}</div> */}
           </ToggleButtonGroup>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           <TextField
             name="quoteFirstName"
             color="secondary"
@@ -328,7 +329,7 @@ export default function Create({ childToParent }) {
             aria-label="Restricted values"
             step={null}
             marks={marks}
-            max={3000}
+            max={3500}
             min={1000}
             onChange={formik.handleChange}
             name="quoteEngineSize"
@@ -417,7 +418,9 @@ export default function Create({ childToParent }) {
           </FormControl>
         </Grid>
         <Grid item xs={12}>
-          What is the current value of the vehicle?
+          <FormLabel component="legend">
+            What is the current value of the vehicle? ($)
+          </FormLabel>
         </Grid>
         <Grid item xs={12}>
           <Slider
@@ -457,8 +460,9 @@ export default function Create({ childToParent }) {
                 color="primary"
                 variant="contained"
                 type="submit"
+                fullWidth
               >
-                NEXT
+                Calculate Quote
               </Button>
             </Box>
           </form>
